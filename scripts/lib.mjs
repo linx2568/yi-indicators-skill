@@ -3,7 +3,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-const DEFAULT_API_URL = "http://156.227.233.148:8001";
+const DEFAULT_API_URL = process.env.YI_API_URL || "http://localhost:8001";
 const CONFIG_DIR = path.join(os.homedir(), ".config", "yi-indicators");
 const CONFIG_FILE = path.join(CONFIG_DIR, "api-key");
 

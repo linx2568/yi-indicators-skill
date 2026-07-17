@@ -5,12 +5,12 @@ A CodeBuddy / Claude Code / Cursor skill for Yi Stickiness indicator analysis �
 ## Install
 
 ```bash
-npx skills add github.com/YOUR_USER/yi-indicators-skill --skill yi-indicators
+npx skills add github.com/linx2568/yi-indicators-skill --skill yi-indicators
 ```
 
 Or tell your AI agent:
 
-> 安装 yi-indicators Skills：https://github.com/YOUR_USER/yi-indicators-skill
+> 安装 yi-indicators Skills：https://github.com/linx2568/yi-indicators-skill
 
 ## What It Does
 
