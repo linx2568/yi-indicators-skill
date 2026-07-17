@@ -2,10 +2,48 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const DEFAULT_API_URL = process.env.YI_API_URL || "http://localhost:8001";
 const CONFIG_DIR = path.join(os.homedir(), ".config", "yi-indicators");
 const CONFIG_FILE = path.join(CONFIG_DIR, "api-key");
+
+// 定位 servers.json：优先从脚本所在目录的父目录查找
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SERVERS_FILE = path.join(__dirname, "..", "servers.json");
+
+/**
+ * 读取服务器列表
+ * 返回 { servers, defaultUrl }，其中 defaultUrl 是第一个 status=active 的服务器 URL
+ */
+export function getServerList() {
+  if (!fs.existsSync(SERVERS_FILE)) {
+    return { servers: [], defaultUrl: "http://localhost:8001" };
+  }
+  try {
+    const raw = fs.readFileSync(SERVERS_FILE, "utf8");
+    const servers = JSON.parse(raw);
+    if (!Array.isArray(servers) || servers.length === 0) {
+      return { servers: [], defaultUrl: "http://localhost:8001" };
+    }
+    const active = servers.filter(s => s.status === "active");
+    const defaultUrl = active.length > 0 ? active[0].url : "http://localhost:8001";
+    return { servers, defaultUrl };
+  } catch {
+    return { servers: [], defaultUrl: "http://localhost:8001" };
+  }
+}
+
+/**
+ * 解析 API 地址，优先级：
+ *   1. 环境变量 YI_API_URL
+ *   2. servers.json 中第一个 active 服务器
+ *   3. localhost:8001 (fallback)
+ */
+export function resolveApiUrl() {
+  if (process.env.YI_API_URL?.trim()) return process.env.YI_API_URL.trim();
+  return getServerList().defaultUrl;
+}
 
 export function getConfigFilePath() {
   return CONFIG_FILE;
@@ -42,7 +80,7 @@ export function resolveApiKey() {
 }
 
 export function getApiUrl() {
-  return process.env.YI_API_URL || DEFAULT_API_URL;
+  return resolveApiUrl();
 }
 
 export async function apiPost(endpoint, body) {

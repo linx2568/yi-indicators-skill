@@ -1,0 +1,10 @@
+[
+  {
+    "id": "default",
+    "name": "默认服务器",
+    "url": "http://156.227.233.148:8001",
+    "region": "global",
+    "status": "active",
+    "description": "公共服务器，所有套餐可用"
+  }
+]

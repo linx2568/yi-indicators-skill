@@ -44,6 +44,26 @@ node scripts/account.mjs
 
 应返回账户套餐和用量信息。配置完成后进入正常数据获取流程。
 
+### 配置 API 服务器地址
+
+Yi 服务部署在远程服务器上。使用前需确认连接目标：
+
+**方式一：环境变量（优先）**
+
+```bash
+export YI_API_URL=http://你的服务器IP:8001
+```
+
+**方式二：服务器列表文件**
+
+Skill 内置了一份可用服务器列表 `servers.json`。启动时自动选择第一个 `status=active` 的服务器。AI 可执行以下命令查看当前可用服务器：
+
+```bash
+node scripts/servers.mjs
+```
+
+**优先级**：环境变量 `YI_API_URL` > `servers.json` 活跃服务器 > `localhost:8001`
+
 ---
 
 ## 理论框架速览
@@ -90,6 +110,7 @@ Layer 4: OB 验证 (命中率 / 确认率 / 回测)
 | `node scripts/ob-verify.mjs --symbol <SYMBOL>` | OB 盘口验证统计 |
 | `node scripts/symbols.mjs` | 查询支持交易对 |
 | `node scripts/account.mjs` | 查询套餐/用量 |
+| `node scripts/servers.mjs` | 查看可用 API 服务器列表 |
 
 **注意**：如果 `scripts/` 目录不在当前工作目录，需使用完整路径或相对路径。优先尝试：
 ```bash

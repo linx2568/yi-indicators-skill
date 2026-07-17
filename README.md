@@ -29,6 +29,26 @@ A Yi API key. Register for free:
 node scripts/register.mjs
 ```
 
+## Server Configuration
+
+Yi services run on remote servers. Configure the API endpoint before use:
+
+**Option 1: Environment variable (takes priority)**
+
+```bash
+export YI_API_URL=http://<your-server>:8001
+```
+
+**Option 2: Server list file**
+
+The skill includes `servers.json` with available servers. The first active server is auto-selected. View available servers:
+
+```bash
+node scripts/servers.mjs
+```
+
+**Priority**: `YI_API_URL` env var > `servers.json` active entry > `localhost:8001`
+
 ## Requirements
 
 - Node.js (zero npm dependencies)
