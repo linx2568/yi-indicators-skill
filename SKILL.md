@@ -143,6 +143,12 @@ node scripts/screen.mjs --state_filter StagnantBuy --zone_filter Stagnant
 3. **区决定义可靠性**：利区信号更可靠，滞区需等待突破确认
 4. **大周期优先**：1d/4h 方向 > 15m/5m 短期波动
 5. **标注边界不确定性**：指标值接近阈值时明确说明
+6. **wall_confirmed 盘口确认**：OB 增强位独有字段
+   - `true` = level 创建时刻盘口有强墙（|ob_imbalance| > 0.3 且方向匹配）
+   - `false` = 无强墙确认；`null` = 暂无验证数据
+   - support + wall_confirmed=true → 有 bid wall 支撑 → 强支撑（适合设止损）
+   - resistance + wall_confirmed=true → 有 ask wall 压制 → 强阻力（适合设止盈）
+   - `ob_imbalance`: [-1,+1]，正=bid 占优，负=ask 占优，绝对值越大墙越强
 
 ---
 
